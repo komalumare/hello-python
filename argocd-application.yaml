@@ -1,0 +1,24 @@
+apiVersion: argoproj.io/v1alpha1
+kind: Application
+metadata:
+  name: hello-python-app
+  namespace: argocd  # Argo CD is usually installed in the 'argocd' namespace
+spec:
+  project: default
+  source:
+    repoURL: https://github.com/komalumare/hello-python.git  # Replace with your GitHub repo URL
+    targetRevision: HEAD  # Use the latest commit (or specify a branch/tag)
+    path: hello-python-chart  # Path to the Helm chart in your repository
+    helm:
+      values: |
+        # Optional: You can customize values here. If none are needed, you can remove this section.
+        # e.g. image: my-python-image:latest
+        # or any other custom configuration for Helm charts
+  destination:
+    server: https://kubernetes.default.svc  # This is the default API server for Kubernetes
+    namespace: default  # The Kubernetes namespace where the app will be deployed
+  syncPolicy:
+    automated:
+      prune: true  # Automatically delete resources that are no longer defined
+      selfHeal: true  # Automatically heal the application if something is out of sync
+

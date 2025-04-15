@@ -1,14 +1,56 @@
+# Default values for hello-python chart.
+
+# Application replica count
 replicaCount: 1
 
+# Docker image settings
 image:
   repository: python
   tag: "3.10"
   pullPolicy: IfNotPresent
 
+# Service settings (internal Kubernetes service)
 service:
   type: ClusterIP
   port: 5000
 
+# Application name
 app:
   name: hello-python
+
+# Service Account settings
+serviceAccount:
+  create: true  # Create a service account
+  name: hello-python-service-account  # Custom name for the service account (optional)
+
+# Ingress settings (for external access)
+ingress:
+  enabled: false  # Set this to true if you want to enable ingress
+  name: ""
+  annotations: {}
+  hosts:
+    - host: hello-python.local  # Replace with your desired host
+      paths:
+        - /
+  tls: []  # Set TLS configurations if required
+  
+# Resources (optional, adjust based on your requirements)
+resources:
+  requests:
+    memory: "64Mi"
+    cpu: "250m"
+  limits:
+    memory: "128Mi"
+    cpu: "500m"
+
+# Node selector, tolerations, and affinity can be configured here
+nodeSelector: {}
+tolerations: []
+affinity: {}
+
+# Other values for configuration (you can add application-specific config here)
+env: {}
+
+# Custom application-specific config (can be added in configmap.yaml or env variables)
+config: {}
 
